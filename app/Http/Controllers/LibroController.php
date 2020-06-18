@@ -39,10 +39,16 @@ class LibroController extends Controller
      */
     public function store(Request $request)
     {
-        $libro = Libro::create($request->all());
+        $libro = new Libro();
+        $libro->codigo = $request->input('codigo');
+        $libro->nombre_libro = $request->input('nombre');
+        $libro->autor_id = $request->input('autor');
+        $libro->editorial_id = $request->input('editorial');
+        $libro->publicacion = $request->input('publicacion');
+        $libro->save();
         return response()->json([
             "mensaje" => 'Libro agregado',
-            "Libro" => $libro
+            "libro" => $libro
         ], 200);
     }
 
@@ -79,7 +85,7 @@ class LibroController extends Controller
     public function update(Request $request, $id)
     {
         $libro = Libro::find($id);
-        $libro->nombre_libro = $request->nombreEditado;
+        $libro->nombre_libro = $request->nombre;
         $libro->save();
         return $libro;
     }
